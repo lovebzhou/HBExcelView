@@ -8,14 +8,18 @@
 - 支持调整列宽度
 
 <img src="Misc/drag_column.png" width="375" height="689"/>
+
 - 支持定制左侧固定显示列
 - 支持列头三段式排序交互
 
  <img src="Misc/select_column.png" width="375" height="689"/>
+ 
+
 - 支持cell重用：大量行列数据情况下，性能表现良好
 - 支持下拉刷新交互
 
 <img src="Misc/refresh.png" width="375" height="689"/>
+
 - 支持滚动到底部加载更多交互
 
 <img src="Misc/loadingmore.png" width="375" height="689"/>
