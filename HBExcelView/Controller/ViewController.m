@@ -65,12 +65,12 @@ static const NSInteger kHBRowCount = 100;
         _rowDatas = [NSMutableArray arrayWithCapacity:20];
     }
 
-    for (NSInteger i = _offset; i < _offset+20; ++i) {
+    for (NSInteger i = _offset+1; i <= _offset+20; ++i) {
         NSMutableArray *row = [NSMutableArray arrayWithCapacity:kHBColumnCount];
-        [row addObject:@{@"value":@(i+1)
+        [row addObject:@{@"value":@(i)
 //                         ,@"cell":@"c0"
                          }];
-        for (NSInteger j = 0; j < kHBColumnCount+1; ++j) {
+        for (NSInteger j = 1; j <= kHBColumnCount + 1; ++j) {
             [row addObject:@{@"value":[NSString stringWithFormat:@"%ld,%ld", i, j]
 //                             ,@"cell":@"cn"
                              }];
@@ -197,7 +197,9 @@ static const NSInteger kHBRowCount = 100;
 }
 
 - (void)loadMoreRowsInExcelView:(HBExcelView *)excelView {
-    [self loadMoreRows];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self loadMoreRows];
+    });
 }
 
 @end
