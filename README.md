@@ -1,6 +1,6 @@
 # HBExcelView
 
-实现类似Excel表格样式的数据显示
+实现iOS下类似Excel表格的数据显示
 
 ### 特性
 
