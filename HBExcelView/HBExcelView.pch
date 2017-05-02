@@ -1,0 +1,29 @@
+//
+//  HBExcelView.pch
+//  HBExcelView
+//
+//  Created by zhoubo on 2017/5/2.
+//  Copyright © 2017年 huoban. All rights reserved.
+//
+
+#ifndef HBExcelView_pch
+#define HBExcelView_pch
+
+#import "UITableView+LoadingMore.h"
+#import "UIColor+Demo.h"
+
+#ifdef DEBUG
+
+#define HBAssert(condition, desc, ...) \
+if (DEBUG && !(condition)) { \
+NSLog((desc), ##__VA_ARGS__); \
+NSAssert((condition), (desc), ##__VA_ARGS__); \
+}
+
+#else
+
+#define HBAssert(condition, desc, ...)
+
+#endif
+
+#endif /* HBExcelView_pch */
