@@ -14,7 +14,7 @@
     UIView *footerView = self.tableFooterView;
     if (footerView == nil) {
         CGRect frame = self.bounds;
-        frame.size.height = 50;
+        frame.size.height = 1;
         footerView = [[UIView alloc] initWithFrame:frame];
         self.tableFooterView = footerView;
     }

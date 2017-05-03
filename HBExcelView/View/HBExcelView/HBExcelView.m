@@ -18,6 +18,11 @@
 
 @property (nonatomic, strong) UIView *columnWidthChangeIndicator;
 
+@property (nonatomic, strong) UIScrollView *blankFooterScrollView;
+@property (nonatomic) CGFloat nonBlankContentHeight;
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+
 @property (nonatomic, strong) NSMutableDictionary *reusableColumnCellClasses;
 @property (nonatomic, strong) NSMutableDictionary *reusableColumnHeaderClasses;
 
@@ -25,8 +30,6 @@
 @property (nonatomic, strong) NSMutableDictionary *reusableColumnHeaders;
 
 @property (nonatomic) CGPoint contentOffset;
-
-@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 @property (nonatomic) NSInteger fixedColumnCount;
 @property (nonatomic) CGFloat fixedColumnsWidth;
@@ -90,6 +93,17 @@
     [_tableView registerNib:[UINib nibWithNibName:@"HBExcelTableViewCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     [_tableView registerNib:[UINib nibWithNibName:@"HBExcelTableSectionHeaderView" bundle:nil] forHeaderFooterViewReuseIdentifier:@"header"];
     
+    UIView *footerView = [_tableView hb_footerView];
+    if (_blankFooterScrollView == nil) {
+        _blankFooterScrollView = [[UIScrollView alloc] initWithFrame:footerView.bounds];
+        [footerView addSubview:_blankFooterScrollView];
+        _blankFooterScrollView.delegate = self;
+        _blankFooterScrollView.showsHorizontalScrollIndicator = NO;
+        _blankFooterScrollView.alwaysBounceHorizontal = YES;
+        _blankFooterScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _blankFooterScrollView.contentSize = _blankFooterScrollView.bounds.size;
+    }
+    
     _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
     [_tableView addGestureRecognizer:_tapGestureRecognizer];
 }
@@ -111,6 +125,25 @@
     [super layoutSubviews];
     
     _tableView.frame = self.bounds;
+    
+    [self updateBlankFooterScrollView];
+}
+
+- (void)updateBlankFooterScrollView {
+    CGFloat footerHeight = _tableView.frame.size.height - _nonBlankContentHeight;
+    if (footerHeight < 50) {
+        footerHeight = 50;
+    }
+    
+    UIView *footerView = [_tableView hb_footerView];
+    CGRect frame = footerView.frame;
+    
+    if (footerHeight != frame.size.height) {
+        frame.size.height = footerHeight;
+        footerView.frame = frame;
+        _tableView.tableFooterView = footerView;
+        _blankFooterScrollView.contentSize = CGSizeMake(_columnsWidth+_rightPadding, footerHeight);
+    }
 }
 
 #pragma mark -
@@ -131,6 +164,11 @@
 - (void)reloadData {
     [_tableView reloadData];
     [_tableView hb_hideFooterLoading];
+    
+    CGFloat sectionsHeight = [_dataSource numberOfSectionsInExcelView:self] * [_dataSource excelView:self heightForHeaderInSection:0];
+    CGFloat rowsHeight = [_dataSource numberOfRowsInExcelView:self] * [_dataSource excelView:self heightForRowAtIndexPath:nil];
+    _nonBlankContentHeight = sectionsHeight + rowsHeight;
+    [self updateBlankFooterScrollView];
 }
 
 - (void)registerClass:(Class)columnCellClass forReusableColumnCellIdentifier:(NSString *)identifier {

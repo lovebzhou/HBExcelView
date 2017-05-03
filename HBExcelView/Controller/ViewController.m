@@ -9,9 +9,6 @@
 #import "ViewController.h"
 #import "HBExcelView.h"
 
-static const NSInteger kHBColumnCount = 50;
-static const NSInteger kHBRowCount = 100;
-
 @interface ViewController () <HBExcelViewDelegate, HBExcelViewDataSource>
 @property (weak, nonatomic) IBOutlet HBExcelView *excelView;
 
@@ -20,6 +17,9 @@ static const NSInteger kHBRowCount = 100;
 @property (nonatomic) NSInteger offset;
 
 @property (strong, nonatomic) NSMutableDictionary *selectedHeaderData;
+
+@property (nonatomic) NSInteger columnCount;
+@property (nonatomic) NSInteger rowCount;
 
 @end
 
@@ -42,15 +42,15 @@ static const NSInteger kHBRowCount = 100;
 }
 
 - (void)updateHeaderDatas {
-    NSMutableArray *columnWidths = [NSMutableArray arrayWithCapacity:kHBColumnCount+1];
-    _headerDatas = [NSMutableArray arrayWithCapacity:kHBColumnCount+1];
+    NSMutableArray *columnWidths = [NSMutableArray arrayWithCapacity:_columnCount+1];
+    _headerDatas = [NSMutableArray arrayWithCapacity:_columnCount+1];
     
     [_headerDatas insertObject:@{@"name":@""
 //                                 ,@"cell":@"h0"
                                  } atIndex:0];
     [columnWidths insertObject:@45 atIndex:0];
     
-    for (NSInteger i = 0; i < kHBColumnCount; ++i) {
+    for (NSInteger i = 0; i < _columnCount; ++i) {
         [_headerDatas addObject:[@{@"name":[NSString stringWithFormat:@"C%ld", i+1]
 //                                   ,@"cell":@"h1"
                                    } mutableCopy]];
@@ -64,13 +64,16 @@ static const NSInteger kHBRowCount = 100;
     if (_offset == 0) {
         _rowDatas = [NSMutableArray arrayWithCapacity:20];
     }
-
-    for (NSInteger i = _offset+1; i <= _offset+20; ++i) {
-        NSMutableArray *row = [NSMutableArray arrayWithCapacity:kHBColumnCount];
+    
+    NSInteger count = _offset + 20;
+    if (count > _rowCount) count = _rowCount;
+    
+    for (NSInteger i = _offset+1; i <= count; ++i) {
+        NSMutableArray *row = [NSMutableArray arrayWithCapacity:_columnCount];
         [row addObject:@{@"value":@(i)
 //                         ,@"cell":@"c0"
                          }];
-        for (NSInteger j = 1; j <= kHBColumnCount + 1; ++j) {
+        for (NSInteger j = 1; j <= _columnCount + 1; ++j) {
             [row addObject:@{@"value":[NSString stringWithFormat:@"%ld,%ld", i, j]
 //                             ,@"cell":@"cn"
                              }];
@@ -85,9 +88,23 @@ static const NSInteger kHBRowCount = 100;
 
 - (void)initData {
     _offset = 0;
+    _columnCount = 50;
+    _rowCount = 50;
     
     [self updateHeaderDatas];
     [self loadMoreRows];
+}
+
+- (void)rowDidClick:(id)sender {
+    UIBarButtonItem *barButton = (UIBarButtonItem *)sender;
+    _rowCount = barButton.tag;
+    [self refreshControlDidChange:nil];
+}
+
+- (void)colDidClick:(id)sender {
+    UIBarButtonItem *barButton = (UIBarButtonItem *)sender;
+    _columnCount = barButton.tag;
+    [self refreshControlDidChange:nil];
 }
 
 - (void)initView {
@@ -106,13 +123,30 @@ static const NSInteger kHBRowCount = 100;
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshControlDidChange:) forControlEvents:UIControlEventValueChanged];
     [_excelView.tableView addSubview:refreshControl];
+    
+  
+    UIBarButtonItem *col1 = [[UIBarButtonItem alloc] initWithTitle:@"1" style:UIBarButtonItemStylePlain target:self action:@selector(colDidClick:)];
+    col1.tag = 1;
+    UIBarButtonItem *col10 = [[UIBarButtonItem alloc] initWithTitle:@"10" style:UIBarButtonItemStylePlain target:self action:@selector(colDidClick:)];
+    col10.tag = 10;
+    UIBarButtonItem *col100 = [[UIBarButtonItem alloc] initWithTitle:@"100" style:UIBarButtonItemStylePlain target:self action:@selector(colDidClick:)];
+    col100.tag = 100;
+    self.navigationItem.leftBarButtonItems = @[col1, col10, col100];
+    
+    UIBarButtonItem *row1 = [[UIBarButtonItem alloc] initWithTitle:@"1" style:UIBarButtonItemStylePlain target:self action:@selector(rowDidClick:)];
+    row1.tag = 1;
+    UIBarButtonItem *row10 = [[UIBarButtonItem alloc] initWithTitle:@"10" style:UIBarButtonItemStylePlain target:self action:@selector(rowDidClick:)];
+    row10.tag = 10;
+    UIBarButtonItem *row100 = [[UIBarButtonItem alloc] initWithTitle:@"100" style:UIBarButtonItemStylePlain target:self action:@selector(rowDidClick:)];
+    row100.tag = 100;
+    self.navigationItem.rightBarButtonItems = @[row100, row10, row1];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initData];
     [self initView];
+    [self initData];
 }
 
 #pragma mark - HBExcelViewDelegate
@@ -193,7 +227,7 @@ static const NSInteger kHBRowCount = 100;
 }
 
 - (BOOL)hasMoreRowsInExcelView:(HBExcelView *)excelView {
-    return _offset < kHBRowCount;
+    return _offset < _rowCount;
 }
 
 - (void)loadMoreRowsInExcelView:(HBExcelView *)excelView {
