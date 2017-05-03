@@ -252,7 +252,7 @@ static void *kHBScrollViewContentOffset = &kHBScrollViewContentOffset;
 }
 
 - (HBExcelColumnHeader *)columnHeaderAtPoint:(CGPoint)point { // TODO:maybe need not
-    if (point.x < _excelView.fixedColumnsWidth) return nil;
+    if (point.x < CGRectGetMaxX(_fixedView.frame)) return nil;
     
     HBExcelColumnHeader *columnHeader = nil;
     CGFloat x = _excelView.fixedColumnsWidth;
