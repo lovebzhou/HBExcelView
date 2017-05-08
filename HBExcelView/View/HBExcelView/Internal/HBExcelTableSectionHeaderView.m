@@ -258,7 +258,7 @@ static void *kHBScrollViewContentOffset = &kHBScrollViewContentOffset;
     CGFloat x = _excelView.fixedColumnsWidth;
     for (NSInteger i = _excelView.fixedColumnCount; i < _excelView.columnWidths.count; ++i) {
         CGFloat w = [_excelView.columnWidths[i] floatValue];
-        if ((point.x > x) && (point.x < (x + w))) {
+        if ((point.x >= x) && (point.x <= (x + w))) {
             columnHeader = [self headerAtColumn:i];
         }
         x += w;
