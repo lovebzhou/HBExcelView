@@ -72,7 +72,7 @@
 
 - (UIView *)hb_addFooterTopSeparator {
     UIView *separotorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0.5)];
-    separotorView.backgroundColor = [UIColor hb_colorFromHexString:@"#E1E1E1"];
+    separotorView.backgroundColor = [UIColor hb_colorFromHexString:HBSeparatorColor];
     separotorView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     separotorView.tag = 1704261;
     [[self hb_footerView] addSubview:separotorView];

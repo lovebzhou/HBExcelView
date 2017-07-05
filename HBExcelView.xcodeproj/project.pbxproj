@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C71FD52A1F0CA79C00A865C1 /* HBLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = C71FD5291F0CA79C00A865C1 /* HBLineView.m */; };
 		C727116D1EB81B1D001FE7CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C727116C1EB81B1D001FE7CD /* main.m */; };
 		C72711701EB81B1D001FE7CD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C727116F1EB81B1D001FE7CD /* AppDelegate.m */; };
 		C72711761EB81B1D001FE7CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C72711741EB81B1D001FE7CD /* Main.storyboard */; };
@@ -26,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C71FD5281F0CA79C00A865C1 /* HBLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBLineView.h; sourceTree = "<group>"; };
+		C71FD5291F0CA79C00A865C1 /* HBLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBLineView.m; sourceTree = "<group>"; };
 		C72711681EB81B1D001FE7CD /* HBExcelView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HBExcelView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C727116C1EB81B1D001FE7CD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C727116E1EB81B1D001FE7CD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -70,6 +73,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C71FD5271F0CA76600A865C1 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				C71FD5281F0CA79C00A865C1 /* HBLineView.h */,
+				C71FD5291F0CA79C00A865C1 /* HBLineView.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		C727115F1EB81B1D001FE7CD = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +144,7 @@
 		C72711871EB81B7A001FE7CD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C71FD5271F0CA76600A865C1 /* Common */,
 				C72711BA1EB81CF5001FE7CD /* Category */,
 				C72711A01EB81BEE001FE7CD /* HBExcelView */,
 			);
@@ -253,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C71FD52A1F0CA79C00A865C1 /* HBLineView.m in Sources */,
 				C72711C01EB81CF5001FE7CD /* UITableView+LoadingMore.m in Sources */,
 				C72711B21EB81BEE001FE7CD /* HBExcelColumnHeader.m in Sources */,
 				C72711701EB81B1D001FE7CD /* AppDelegate.m in Sources */,
@@ -428,6 +442,7 @@
 				C72711841EB81B1D001FE7CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

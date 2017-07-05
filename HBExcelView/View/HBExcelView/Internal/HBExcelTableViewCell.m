@@ -11,46 +11,6 @@
 
 static void *kHBScrollViewContentOffset = &kHBScrollViewContentOffset;
 
-/**
- * to resolve tableview not receive touching while a cell with a scrollview inside.
- * still has problem for long press, to be determine.
- */
-@interface HBExelTableViewCellScrollView : UIScrollView
-
-@end
-
-@implementation HBExelTableViewCellScrollView
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (!self.dragging)
-        [self.superview touchesCancelled: touches withEvent:event];
-    else
-        [super touchesCancelled: touches withEvent: event];
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (!self.dragging)
-        [self.superview touchesMoved: touches withEvent:event];
-    else
-        [super touchesMoved: touches withEvent: event];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (!self.dragging)
-        [self.superview touchesBegan: touches withEvent:event];
-    else
-        [super touchesBegan: touches withEvent: event];
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (!self.dragging)
-        [self.superview touchesEnded: touches withEvent:event];
-    else
-        [super touchesEnded: touches withEvent: event];
-}
-
-@end
-
 @interface HBExcelTableViewCell ()
 
 @property (nonatomic, strong) UIView *fixedView;
@@ -78,6 +38,18 @@ static void *kHBScrollViewContentOffset = &kHBScrollViewContentOffset;
                   forKeyPath:NSStringFromSelector(@selector(contentOffset))
                      options:NSKeyValueObservingOptionNew
                      context:kHBScrollViewContentOffset];
+    self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
+    self.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    if (selected) {
+        self.selectedBackgroundView.backgroundColor = [UIColor hb_colorFromHexString:HBCellSelectedColor];
+    } else {
+        self.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
+    }
+    _fixedView.backgroundColor = self.selectedBackgroundView.backgroundColor;
 }
 
 - (UIView *)fixedView {
@@ -248,7 +220,6 @@ static void *kHBScrollViewContentOffset = &kHBScrollViewContentOffset;
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (_fixedView) {
-        _fixedView.backgroundColor = self.contentView.backgroundColor;
         [_scrollView bringSubviewToFront:_fixedView];
     }
 }

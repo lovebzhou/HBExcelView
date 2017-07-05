@@ -7,10 +7,11 @@
 //
 
 #import "HBExcelColumnCell.h"
+#import "HBLineView.h"
 
 @interface HBExcelColumnCell ()
 
-@property (nonatomic, strong) UIView *rightSeparator;
+@property (nonatomic, strong) HBLineView *rightSeparator;
 
 @end
 
@@ -19,9 +20,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _rightSeparator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0.5, 40)];
+        _rightSeparator = [[HBLineView alloc] initWithFrame:CGRectMake(0, 0, 0.5, 40)];
         [self addSubview:_rightSeparator];
-        _rightSeparator.backgroundColor = [UIColor hb_colorFromHexString:@"#E1E1E1"];
+        _rightSeparator.lineColor = [UIColor hb_colorFromHexString:HBSeparatorColor];
     }
     return self;
 }

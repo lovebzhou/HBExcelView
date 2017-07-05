@@ -45,7 +45,7 @@
     NSMutableArray *columnWidths = [NSMutableArray arrayWithCapacity:_columnCount+1];
     _headerDatas = [NSMutableArray arrayWithCapacity:_columnCount+1];
     
-    [_headerDatas insertObject:@{@"name":@""
+    [_headerDatas insertObject:@{@"name":@"X"
 //                                 ,@"cell":@"h0"
                                  } atIndex:0];
     [columnWidths insertObject:@45 atIndex:0];
@@ -218,8 +218,8 @@
 }
 
 - (NSString *)excelView:(HBExcelView *)excelView columnHeaderIdentfierAtColumn:(NSInteger)column section:(NSInteger)section headerDatas:(NSArray *)headerDatas {
-    
-    return column == 0 ? @"h0" : @"hn";
+    return @"hn";
+//    return column == 0 ? @"h0" : @"hn";
 }
 
 - (NSString *)excelView:(HBExcelView *)excelView columnCellIdentfierAtColumn:(NSInteger)column indexPath:(NSIndexPath *)indexPath headerDatas:(NSArray *)headerDatas rowDatas:(NSArray *)rowDatas {

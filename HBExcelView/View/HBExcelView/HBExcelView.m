@@ -89,7 +89,7 @@
     if ([_tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         _tableView.cellLayoutMarginsFollowReadableWidth = NO;
     }
-    _tableView.separatorColor = [UIColor hb_colorFromHexString:@"#E1E1E1"];
+    _tableView.separatorColor = [UIColor hb_colorFromHexString:HBSeparatorColor];
     [_tableView registerNib:[UINib nibWithNibName:@"HBExcelTableViewCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     [_tableView registerNib:[UINib nibWithNibName:@"HBExcelTableSectionHeaderView" bundle:nil] forHeaderFooterViewReuseIdentifier:@"header"];
     

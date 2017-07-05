@@ -26,4 +26,7 @@ NSAssert((condition), (desc), ##__VA_ARGS__); \
 
 #endif
 
+#define HBSeparatorColor        @"#DDDDDD"
+#define HBCellSelectedColor     @"#EEEEEE"
+
 #endif /* HBExcelView_pch */
